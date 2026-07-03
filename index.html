@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TM LINK | 한 번의 탭으로 기억되는 사람</title>
+<meta name="description" content="종이 명함은 버려지지만 디지털 명함은 저장됩니다. NFC·QR 디지털 명함 DiCA와 원페이지 홈페이지 제작. 부산 TM LINK.">
+<meta property="og:title" content="TM LINK | 디지털 명함 · 원페이지 홈페이지">
+<meta property="og:description" content="한 번의 탭으로 기억되는 사람. NFC 디지털 명함 DiCA 제작.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --black:#111111;
+  --white:#ffffff;
+  --gray:#767676;
+  --gray-light:#f4f4f4;
+  --line:#e5e5e5;
+  --point:#FEE500; /* 유일한 포인트색 = 행동 버튼 */
+  --max:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;color:var(--black);background:var(--white);line-height:1.6;word-break:keep-all}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{padding:110px 0}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.14em;color:var(--gray);margin-bottom:20px}
+h2{font-size:clamp(30px,5vw,48px);font-weight:900;line-height:1.25;letter-spacing:-.02em}
+.sub{font-size:clamp(16px,2.2vw,19px);color:var(--gray);margin-top:18px}
+
+/* ---------- 헤더 ---------- */
+header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:100}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:20px;font-weight:900;letter-spacing:-.02em}
+.nav-links{display:flex;gap:28px;font-size:15px;font-weight:600}
+.nav-cta{background:var(--black);color:var(--white);padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700}
+@media(max-width:720px){.nav-links{display:none}}
+
+/* ---------- 히어로 ---------- */
+.hero{padding:120px 0 100px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero h1{font-size:clamp(40px,7vw,76px);font-weight:900;line-height:1.12;letter-spacing:-.03em}
+.hero h1 .thin{font-weight:300;color:var(--gray)}
+.hero p{font-size:clamp(17px,2.4vw,20px);color:var(--gray);margin-top:26px;max-width:460px}
+.hero-btns{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 30px;border-radius:999px;font-size:16px;font-weight:800;transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-point{background:var(--point);color:var(--black)}
+.btn-ghost{border:1.5px solid var(--black);color:var(--black)}
+@media(max-width:840px){.hero .wrap{grid-template-columns:1fr;gap:48px}}
+
+/* 폰 목업 + 탭 시그니처 */
+.phone{width:270px;margin:0 auto;background:var(--black);border-radius:38px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.18);position:relative}
+.screen{background:var(--white);border-radius:28px;overflow:hidden}
+.card-top{background:var(--black);color:var(--white);padding:34px 22px 22px;text-align:center}
+.card-top .name{font-size:22px;font-weight:900;letter-spacing:-.01em}
+.card-top .role{font-size:12px;color:#aaa;margin-top:4px}
+.card-langs{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.card-langs span{font-size:10px;border:1px solid #555;border-radius:999px;padding:2px 8px;color:#ccc}
+.card-body{padding:18px 20px 26px}
+.card-line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:#444}
+.card-line:last-child{border:none}
+.dot{width:26px;height:26px;border-radius:8px;background:var(--gray-light);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.tap{position:absolute;bottom:-16px;right:-16px;width:74px;height:74px;border-radius:50%;background:var(--point);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.15);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(254,229,0,.55)}70%{box-shadow:0 0 0 22px rgba(254,229,0,0)}100%{box-shadow:0 0 0 0 rgba(254,229,0,0)}}
+@media(prefers-reduced-motion:reduce){.tap{animation:none}.btn:hover{transform:none}}
+
+/* ---------- 문제 제기 ---------- */
+.problem{background:var(--gray-light)}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.p-card{background:var(--white);border-radius:20px;padding:34px 28px}
+.p-card .big{font-size:40px;font-weight:900;letter-spacing:-.02em}
+.p-card p{color:var(--gray);font-size:15px;margin-top:10px}
+@media(max-width:840px){.problem-grid{grid-template-columns:1fr}}
+
+/* ---------- 솔루션 ---------- */
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:70px}
+.feature.rev .f-text{order:2}
+.f-text h3{font-size:clamp(24px,3.4vw,32px);font-weight:900;letter-spacing:-.02em;line-height:1.3}
+.f-text p{color:var(--gray);margin-top:14px;font-size:16.5px}
+.f-visual{background:var(--gray-light);border-radius:24px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--gray);text-align:center;padding:20px}
+@media(max-width:840px){.feature,.feature.rev{grid-template-columns:1fr;gap:24px}.feature.rev .f-text{order:0}}
+
+/* ---------- 숫자 (블랙 풀블리드) ---------- */
+.stats{background:var(--black);color:var(--white)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:60px;text-align:center}
+.stat .num{font-size:clamp(40px,6vw,64px);font-weight:900;letter-spacing:-.02em}
+.stat .label{font-size:14px;color:#999;margin-top:8px}
+@media(max-width:840px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:40px 20px}}
+
+/* ---------- 가격 ---------- */
+.price-group{margin-top:64px}
+.price-group h3{font-size:22px;font-weight:900;margin-bottom:24px}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.price-card{border:1.5px solid var(--line);border-radius:24px;padding:38px 30px;display:flex;flex-direction:column}
+.price-card.hot{border-color:var(--black);position:relative}
+.badge{position:absolute;top:-14px;left:30px;background:var(--black);color:var(--white);font-size:12px;font-weight:800;padding:5px 14px;border-radius:999px}
+.tier{font-size:15px;font-weight:800;color:var(--gray);letter-spacing:.06em}
+.won{font-size:36px;font-weight:900;margin-top:10px;letter-spacing:-.02em}
+.won small{font-size:14px;font-weight:600;color:var(--gray)}
+.price-card ul{list-style:none;margin:24px 0 30px;flex:1}
+.price-card li{font-size:14.5px;color:#444;padding:7px 0;padding-left:22px;position:relative}
+.price-card li::before{content:"✓";position:absolute;left:0;font-weight:900}
+.price-card .btn{justify-content:center;font-size:15px;padding:14px}
+.vat{font-size:13px;color:var(--gray);margin-top:16px}
+@media(max-width:840px){.price-grid{grid-template-columns:1fr}}
+
+/* ---------- 프로세스 ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:60px}
+.step{border-top:3px solid var(--black);padding-top:22px}
+.step .no{font-size:14px;font-weight:900;color:var(--gray)}
+.step h4{font-size:19px;font-weight:900;margin-top:8px}
+.step p{font-size:14.5px;color:var(--gray);margin-top:8px}
+@media(max-width:840px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* ---------- 후기 ---------- */
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.review{background:var(--gray-light);border-radius:20px;padding:32px 28px}
+.review .quote{font-size:16px;font-weight:600;line-height:1.65}
+.review .who{margin-top:20px;font-size:14px;color:var(--gray);font-weight:700}
+@media(max-width:840px){.review-grid{grid-template-columns:1fr}}
+
+/* ---------- FAQ ---------- */
+details{border-bottom:1px solid var(--line);padding:22px 0}
+summary{font-size:17px;font-weight:800;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"+";font-size:24px;font-weight:300;color:var(--gray)}
+details[open] summary::after{content:"−"}
+details p{margin-top:14px;color:var(--gray);font-size:15.5px}
+
+/* ---------- 최종 CTA ---------- */
+.final{background:var(--black);color:var(--white);text-align:center}
+.final h2{color:var(--white)}
+.final .sub{color:#999}
+.final .btn-point{margin-top:40px}
+
+footer{padding:44px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--gray)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">TM LINK</a>
+    <nav class="nav-links">
+      <a href="#solution">디지털 명함</a>
+      <a href="#price">가격</a>
+      <a href="#process">제작 과정</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <!-- KAKAO_CHANNEL_URL 로 교체하세요 -->
+    <a class="nav-cta" href="#contact">문의하기</a>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>종이 명함은<br>버려집니다.<br><span class="thin">당신은</span> 저장되세요.</h1>
+      <p>NFC 카드를 스마트폰에 한 번 탭. 이름, 연락처, 회사 소개, 포트폴리오까지 상대방 폰에 그대로 저장됩니다.</p>
+      <div class="hero-btns">
+        <a class="btn btn-point" href="#contact">💬 카카오톡으로 문의하기</a>
+        <a class="btn btn-ghost" href="#portfolio">제작 사례 보기</a>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="screen">
+        <div class="card-top">
+          <div class="name">송승훈</div>
+          <div class="role">T.M | Transition Makers</div>
+          <div class="card-langs"><span>KR</span><span>EN</span><span>JP</span><span>CN</span></div>
+        </div>
+        <div class="card-body">
+          <div class="card-line"><span class="dot">📞</span>전화 걸기</div>
+          <div class="card-line"><span class="dot">💾</span>연락처 저장</div>
+          <div class="card-line"><span class="dot">🌐</span>홈페이지 · 포트폴리오</div>
+          <div class="card-line"><span class="dot">📍</span>오시는 길</div>
+        </div>
+      </div>
+      <div class="tap">TAP!</div>
+    </div>
+  </div>
+</section>
+
+<!-- 문제 제기 -->
+<section class="problem">
+  <div class="wrap">
+    <p class="eyebrow">WHY DIGITAL</p>
+    <h2>어제 건넨 명함,<br>지금 어디에 있을까요?</h2>
+    <div class="problem-grid">
+      <div class="p-card">
+        <div class="big">지갑 속</div>
+        <p>받은 명함 대부분은 지갑과 서랍에서 잠들고, 정리되지 못한 채 잊혀집니다.</p>
+      </div>
+      <div class="p-card">
+        <div class="big">재인쇄</div>
+        <p>직함이나 번호가 바뀔 때마다 다시 인쇄. 비용과 시간이 반복해서 나갑니다.</p>
+      </div>
+      <div class="p-card">
+        <div class="big">첫인상</div>
+        <p>네트워킹에서 승부는 3초. 종이 한 장으로는 당신의 이야기를 다 담을 수 없습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 솔루션 -->
+<section id="solution">
+  <div class="wrap">
+    <p class="eyebrow">SOLUTION · DiCA</p>
+    <h2>탭 한 번에, 나라는 사람 전부.</h2>
+    <p class="sub">DiCA는 명함이 아니라 당신의 모바일 무대입니다.</p>
+
+    <div class="feature">
+      <div class="f-text">
+        <h3>NFC 탭 + QR, 앱 설치 없이</h3>
+        <p>상대방은 아무것도 설치할 필요가 없습니다. 카드를 폰에 대거나 QR을 찍는 순간 당신의 명함이 열리고, 버튼 하나로 연락처에 저장됩니다.</p>
+      </div>
+      <div class="f-visual">[ NFC 탭 시연 이미지 자리<br>bg_nfc_demo.jpg ]</div>
+    </div>
+
+    <div class="feature rev">
+      <div class="f-text">
+        <h3>4개국어 자동 지원</h3>
+        <p>한국어·영어·일본어·중국어. 해외 바이어를 만나도 언어 버튼 하나로 명함이 통역됩니다. 글로벌 비즈니스의 기본기입니다.</p>
+      </div>
+      <div class="f-visual">[ 4개국어 전환 화면 자리<br>bg_lang_demo.jpg ]</div>
+    </div>
+
+    <div class="feature">
+      <div class="f-text">
+        <h3>포트폴리오·지도·SNS까지 한 페이지</h3>
+        <p>전화, 이메일, 회사 위치, 인스타그램, 포트폴리오 슬라이더까지. 종이 명함 뒷면에 다 못 적던 것들이 전부 들어갑니다. 수정도 인쇄 없이 즉시.</p>
+      </div>
+      <div class="f-visual">[ 포트폴리오 슬라이더 화면 자리<br>bg_portfolio_demo.jpg ]</div>
+    </div>
+  </div>
+</section>
+
+<!-- 숫자 증거 -->
+<section class="stats">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#888">TRACK RECORD</p>
+    <h2>숫자로 말하는 TM LINK</h2>
+    <div class="stats-grid">
+      <div class="stat"><div class="num" data-count="50">50+</div><div class="label">제작한 디지털 명함</div></div>
+      <div class="stat"><div class="num" data-count="4">4</div><div class="label">지원 언어</div></div>
+      <div class="stat"><div class="num" data-count="3">3일</div><div class="label">평균 제작 기간</div></div>
+      <div class="stat"><div class="num" data-count="0">0원</div><div class="label">수정 재인쇄 비용</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 포트폴리오 -->
+<section id="portfolio">
+  <div class="wrap">
+    <p class="eyebrow">PORTFOLIO</p>
+    <h2>실제 제작 사례</h2>
+    <p class="sub">부산 BNI 챕터 대표님들을 포함해 다양한 업종의 명함을 제작했습니다.</p>
+    <div class="hero-btns" style="margin-top:36px">
+      <!-- DiCA 갤러리 실제 URL 확인 후 교체 -->
+      <a class="btn btn-ghost" href="https://jinjjabg-hub.github.io/DiCA-gallery/" target="_blank" rel="noopener">DiCA 갤러리 전체 보기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 가격 -->
+<section id="price" class="problem">
+  <div class="wrap">
+    <p class="eyebrow">PRICING</p>
+    <h2>필요한 만큼만, 투명하게.</h2>
+
+    <div class="price-group">
+      <h3>디지털 명함 DiCA</h3>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="tier">BASIC</div>
+          <div class="won">₩70,000</div>
+          <ul>
+            <li>모바일 최적화 디지털 명함</li>
+            <li>연락처 원터치 저장</li>
+            <li>QR 코드 제공</li>
+            <li>1회 무료 수정</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">문의하기</a>
+        </div>
+        <div class="price-card hot">
+          <div class="badge">가장 인기</div>
+          <div class="tier">STANDARD</div>
+          <div class="won">₩110,000</div>
+          <ul>
+            <li>BASIC 전체 포함</li>
+            <li>4개국어(KR·EN·JP·CN)</li>
+            <li>지도·SNS 링크 연동</li>
+            <li>NFC 카드 1매 포함</li>
+          </ul>
+          <a class="btn btn-point" href="#contact">문의하기</a>
+        </div>
+        <div class="price-card">
+          <div class="tier">PREMIUM</div>
+          <div class="won">₩150,000</div>
+          <ul>
+            <li>STANDARD 전체 포함</li>
+            <li>포트폴리오 슬라이더</li>
+            <li>커스텀 디자인·OG 이미지</li>
+            <li>1년 유지보수</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">문의하기</a>
+        </div>
+      </div>
+      <p class="vat">* 부가세 별도</p>
+    </div>
+
+    <div class="price-group">
+      <h3>원페이지 홈페이지 <span style="font-size:14px;color:var(--gray);font-weight:600">— 지금 보고 계신 이 페이지가 샘플입니다</span></h3>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="tier">LITE</div>
+          <div class="won">₩590,000</div>
+          <ul>
+            <li>원페이지 반응형 홈페이지</li>
+            <li>모바일 최적화</li>
+            <li>카카오채널·문의 연동</li>
+            <li>서버비 0원 (GitHub Pages)</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">문의하기</a>
+        </div>
+        <div class="price-card hot">
+          <div class="badge">추천</div>
+          <div class="tier">STANDARD</div>
+          <div class="won">₩990,000</div>
+          <ul>
+            <li>LITE 전체 포함</li>
+            <li>설득형 카피라이팅</li>
+            <li>후기·포트폴리오 섹션</li>
+            <li>SEO 기본 세팅</li>
+          </ul>
+          <a class="btn btn-point" href="#contact">문의하기</a>
+        </div>
+        <div class="price-card">
+          <div class="tier">PREMIUM</div>
+          <div class="won">₩1,490,000</div>
+          <ul>
+            <li>STANDARD 전체 포함</li>
+            <li>서브페이지 3개</li>
+            <li>디지털 명함 연동</li>
+            <li>1년 유지보수</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">문의하기</a>
+        </div>
+      </div>
+      <p class="vat">* 부가세 별도 · 도메인 연결 별도 문의</p>
+    </div>
+  </div>
+</section>
+
+<!-- 프로세스 -->
+<section id="process">
+  <div class="wrap">
+    <p class="eyebrow">PROCESS</p>
+    <h2>문의부터 완성까지, 단 4단계.</h2>
+    <div class="steps">
+      <div class="step"><div class="no">STEP 1</div><h4>카톡 문의</h4><p>카카오채널로 편하게 문의하세요. 견적은 당일 안내드립니다.</p></div>
+      <div class="step"><div class="no">STEP 2</div><h4>자료 전달</h4><p>사진, 연락처, 소개 문구만 보내주시면 됩니다.</p></div>
+      <div class="step"><div class="no">STEP 3</div><h4>제작 · 시안</h4><p>평균 3일 안에 시안을 보내드리고 함께 다듬습니다.</p></div>
+      <div class="step"><div class="no">STEP 4</div><h4>오픈 · 활용</h4><p>링크와 NFC 카드를 받고 바로 네트워킹에 사용하세요.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 후기 -->
+<section class="problem">
+  <div class="wrap">
+    <p class="eyebrow">REVIEWS</p>
+    <h2>먼저 써본 대표님들의 이야기</h2>
+    <div class="review-grid">
+      <!-- 실제 고객 후기로 교체하세요 -->
+      <div class="review">
+        <p class="quote">"[여기에 실제 고객 후기를 넣어주세요. 2~3문장이 가장 읽기 좋습니다.]"</p>
+        <p class="who">홍길동 대표 · ○○디자인</p>
+      </div>
+      <div class="review">
+        <p class="quote">"[BNI 미팅에서 명함을 탭으로 건넸을 때의 반응 등, 구체적 장면이 담긴 후기가 효과적입니다.]"</p>
+        <p class="who">홍길동 대표 · ○○상사</p>
+      </div>
+      <div class="review">
+        <p class="quote">"[비용·시간 절감처럼 숫자가 들어간 후기를 하나 넣으면 신뢰도가 올라갑니다.]"</p>
+        <p class="who">홍길동 원장 · ○○의원</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2>자주 묻는 질문</h2>
+    <div style="margin-top:48px">
+      <details open>
+        <summary>상대방도 앱을 설치해야 하나요?</summary>
+        <p>아니요. 받는 분은 아무것도 설치할 필요가 없습니다. NFC 탭이나 QR 스캔만으로 브라우저에서 바로 열립니다.</p>
+      </details>
+      <details>
+        <summary>내용 수정은 어떻게 하나요?</summary>
+        <p>카톡으로 변경 내용을 보내주시면 반영해드립니다. 종이 명함처럼 재인쇄 비용이 들지 않습니다.</p>
+      </details>
+      <details>
+        <summary>월 사용료가 있나요?</summary>
+        <p>없습니다. 제작비 1회로 끝나며, 별도 서버 비용이 발생하지 않는 구조로 만들어 드립니다.</p>
+      </details>
+      <details>
+        <summary>NFC 카드는 어떤 폰에서 작동하나요?</summary>
+        <p>최근 출시된 대부분의 안드로이드·아이폰에서 작동합니다. NFC가 없는 기기는 QR 코드로 동일하게 사용 가능합니다.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 최종 CTA -->
+<section class="final" id="contact">
+  <div class="wrap">
+    <h2>다음 미팅에서는<br>탭 한 번으로 기억되세요.</h2>
+    <p class="sub">카카오톡으로 편하게 물어보세요. 견적은 당일 안내드립니다.</p>
+    <!-- href를 카카오채널 URL로 교체하세요 예: https://pf.kakao.com/_xxxxxx -->
+    <a class="btn btn-point" href="#" onclick="alert('카카오채널 URL을 연결해주세요');return false">💬 카카오톡 문의하기</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>T.M | Transition Makers</strong> · 대표 송승훈 · 부산</div>
+    <div>© 2026 TM LINK. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
